@@ -81,6 +81,11 @@ export class StudySessionManager {
       )
     }
 
+    // Shuffle if requested (before slicing to ensure random selection from full pool)
+    if (config.shuffled !== false) {
+      sessionCards = this.shuffleArray(sessionCards)
+    }
+
     // Limit card count based on mode
     if (config.cardCount) {
       sessionCards = sessionCards.slice(0, config.cardCount)
@@ -100,11 +105,6 @@ export class StudySessionManager {
           sessionCards = sessionCards.slice(0, 250)
           break
       }
-    }
-
-    // Shuffle if requested
-    if (config.shuffled !== false) {
-      sessionCards = this.shuffleArray(sessionCards)
     }
 
     const session: StudySessionState = {
