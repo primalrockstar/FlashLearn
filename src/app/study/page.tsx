@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { StudyInterface } from '@/components/study/StudyInterface'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -25,7 +25,7 @@ import { cn } from '@/lib/utils'
 
 type ViewState = 'mode-selection' | 'studying' | 'results'
 
-export default function StudyPage() {
+function StudyPageContent() {
   const searchParams = useSearchParams()
   const [viewState, setViewState] = useState<ViewState>('mode-selection')
   const [selectedConfig, setSelectedConfig] = useState<StudySessionConfig | null>(null)
@@ -506,5 +506,20 @@ export default function StudyPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default function StudyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading study session...</p>
+        </div>
+      </div>
+    }>
+      <StudyPageContent />
+    </Suspense>
   )
 }
