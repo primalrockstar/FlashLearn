@@ -10,14 +10,7 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Redirect all requests for SPA routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-
-# API routes
+# Next.js redirects for dynamic routes and API routes
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
